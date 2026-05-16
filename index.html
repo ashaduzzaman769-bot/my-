@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আমার শপ - ১০০% ফিক্সড</title>
+    <title>আমার শপ My Shop - ১০০% ফিক্সড</title>
     <style>
         :root { --primary: #1b5e20; --bg: #f8f9fa; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; }
@@ -29,22 +29,10 @@
         .btn-primary { background: var(--primary); color: white; margin-top: 10px; }
         .btn-back { background: #f0f0f0; margin-bottom: 15px; font-size: 13px; }
 
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-box { background: white; padding: 15px; border-radius: 12px; text-align: center; border-bottom: 4px solid var(--primary); }
-        .stat-box b { color: var(--primary); font-size: 18px; }
-
         /* অর্ডার লিস্ট কার্ড ডিজাইন */
         .order-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 6px solid #ff9800; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .order-card.done { border-left-color: #4caf50; }
         .order-info { font-size: 13px; line-height: 1.6; color: #333; }
         .order-info b { color: var(--primary); }
-        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 5px; }
-        .st-pending { background: #fff3e0; color: #e65100; }
-        .st-confirm { background: #e8f5e9; color: #2e7d32; }
-        
-        .list-item { background: white; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--primary); }
-        .btn-del { background: #d32f2f; color: white; padding: 8px 15px; border-radius: 5px; border: none; font-size: 12px; cursor: pointer; }
-        .btn-ok { background: #4caf50; color: white; padding: 8px 15px; border-radius: 5px; border: none; font-size: 12px; cursor: pointer; margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -65,7 +53,6 @@
             <input type="text" id="u-name" placeholder="আপনার নাম  Your name">
             <input type="tel" id="u-phone" placeholder="মোবাইল নম্বর (১১ সংখ্যা)" maxlength="11">
             <button class="btn btn-primary" onclick="doLogin()">প্রবেশ করুন  Enter </button>
-            <p onclick="toAdmin()" style="text-align:center; color:#ccc; font-size:12px; margin-top:40px; cursor:pointer; text-decoration: underline;">🔐 অ্যাডমিন প্যানেল</p>
         </div>
     </div>
 
@@ -121,10 +108,10 @@
                     <option>ক্যাশ অন ডেলিভারি</option><option>বিকাশ</option><option>নগদ</option><option>রকেট</option>
                 </select>
                 <h2 style="text-align:center; color:red; margin:10px 0;">মোট: ৳<span id="o-total">0</span></h2>
-                <textarea id="o-addr" placeholder="আপনার পুর্ণ ঠিকানা ও বিকল্প মোবাইল নম্বর দিন"></textarea>
+                <textarea id="o-addr" placeholder="আপনার পুর্ণ ঠিকানা ও মোবাইল নম্বর দিন"></textarea>
                 <textarea id="o-note" placeholder="অতিরিক্ত মন্তব্য (ঐচ্ছিক)"></textarea>
                 
-                <form id="fps-form" action="https://formspree.io/f/mqenrwdj" method="POST" target="_blank" style="display:none;">
+                <form id="fps-form" action="https://formspree.io/f/mqenrwdj" method="POST" style="display:none;">
                     <input type="hidden" name="Customer_Name" id="fps-name">
                     <input type="hidden" name="Customer_Phone" id="fps-phone">
                     <input type="hidden" name="Product" id="fps-prod">
@@ -140,91 +127,45 @@
         </div>
     </div>
 
-    <div id="scr-admin" class="container hidden">
-        <div class="stat-grid">
-            <div class="stat-box">মোট অর্ডার<br><b>৳<span id="st-all">0</span></b></div>
-            <div class="stat-box">ডেলিভারি<br><b>৳<span id="st-ok">0</span></b></div>
-        </div>
-        
-        <div id="adm-menu">
-            <button class="btn btn-primary" onclick="showA('adm-add')">পণ্য যোগ করুন</button>
-            <button class="btn" style="background:orange; color:white; margin-top:10px;" onclick="showA('adm-del')">পণ্য ডিলিট করুন</button>
-            <button class="btn" style="background:#333; color:white; margin-top:10px;" onclick="showA('adm-list')">অর্ডার লিস্ট</button>
-            <button class="btn btn-back" onclick="location.reload()" style="margin-top:20px;">লগআউট</button>
-        </div>
-
-        <div id="adm-add" class="hidden">
-            <button class="btn btn-back" onclick="showA('adm-menu')">← পিছনে আসেন</button>
-            <label>প্রধান ক্যাটাগরি:</label>
-            <select id="am-cat" onchange="checkAgSub()">
-                <option value="agri_main">১. কৃষি পণ্য</option><option value="bazar">২. কাঁচা বাজার</option>
-                <option value="grocer">৩. মুদি দোকান</option><option value="cake">৪. কনফেকশনারি</option>
-                <option value="rest">৫. রেস্টুরেন্ট</option><option value="fruit">৬. ফলমূল</option>
-                <option value="cosm">৭. কসমেটিকস</option><option value="furni">৮. ফার্নিচার</option>
-                <option value="ticket">৯. বাস টিকেট</option><option value="doc">১০. ডাক্তার সিরিয়াল</option>
-                <option value="elec">১১. ইলেক্ট্রনিক্স</option><option value="hotel">১২. হোটেল/এম্বুল্যান্স</option>
-            </select>
-            <div id="agri-sub-wrap">
-                <label>কৃষি সাব-ক্যাটাগরি:</label>
-                <select id="as-cat">
-                    <option value="agri_dhan">১. ধান বীজ</option><option value="agri_veg">২. সবজি বীজ</option>
-                    <option value="agri_corn">৩. ভূট্টা বীজ</option><option value="agri_sar">৪. সার</option>
-                    <option value="agri_fert">৫. ফাটিলাইজার</option><option value="agri_weed">৬. আগাছানাশক</option>
-                    <option value="agri_pest">৭. কীটনাশক</option><option value="agri_fungi">⑧. ছত্রাকনাশক</option>
-                </select>
-            </div>
-            <input type="text" id="pname" placeholder="পণ্যের নাম">
-            <div class="row"><input type="text" id="ps1" placeholder="প্যাক ১"><input type="number" id="pp1" placeholder="দাম ১"></div>
-            <div class="row"><input type="text" id="ps2" placeholder="প্যাক ২"><input type="number" id="pp2" placeholder="দাম ২"></div>
-            <div class="row"><input type="text" id="ps3" placeholder="প্যাক ৩"><input type="number" id="pp3" placeholder="দাম ৩"></div>
-            <textarea id="pbene" placeholder="উপকারિતા/বৈশিষ্ট্য লিখুন"></textarea>
-            <button class="btn btn-primary" onclick="saveToDB()">সেভ করুন</button>
-        </div>
-
-        <div id="adm-del" class="hidden">
-            <button class="btn btn-back" onclick="showA('adm-menu')">← পিছনে আসেন</button>
-            <select id="del-sel-cat" onchange="renderDel()">
-                <option value="">ক্যাটাগরি সিলেক্ট করুন</option>
-                <option value="agri_dhan">ধান বীজ</option><option value="agri_veg">সবজি বীজ</option>
-                <option value="agri_corn">ভূট্টা বীজ</option><option value="agri_sar">সার</option>
-                <option value="agri_fert">ফাটিলাইজার</option><option value="agri_weed">আগাছানাশক</option>
-                <option value="agri_pest">কীটনাশক</option><option value="agri_fungi">ছত্রাকনাশক</option>
-                <option value="bazar">কাঁচা বাজার</option><option value="grocer">মুদি দোকান</option>
-                <option value="cake">কনফেকশনারি</option><option value="rest">রেস্টুরেন্ট</option>
-                <option value="fruit">ফলমূল</option><option value="cosm">কসমেটিকস</option>
-                <option value="furni">ফার্নিচার</option><option value="ticket">বাস টিকেট</option>
-                <option value="doc">ডাক্তার সিরিয়াল</option><option value="elec">ইলেক্ট্রনিক্স</option>
-                <option value="hotel">হোটেল এম্বুল্যান্স</option>
-            </select>
-            <div id="del-list-box"></div>
-        </div>
-
-        <div id="adm-list" class="hidden">
-            <button class="btn btn-back" onclick="showA('adm-menu')">← পিছনে আসেন</button>
-            <div id="order-list-box"></div>
-        </div>
-    </div>
-
     <script>
-        // রিয়েল-টাইম ডাটাবেজ সিঙ্ক করার জন্য ক্লাউডস্টোরেজ অবজেক্ট
-        let db = JSON.parse(localStorage.getItem('myshop_v12_db')) || {};
-        let orders = JSON.parse(localStorage.getItem('myshop_v12_ord')) || [];
+        // 🌟 আপনার দোকানের স্থায়ী পণ্যের তালিকা (এখানে পণ্য লিখলে পৃথিবীর সব ব্রাউজার ও ফোনে দেখাবে)
+        const db = {
+            // ১. কৃষি পণ্যের সাব-ক্যাটাগরি সমূহ
+            "agri_dhan": [
+                { name: "ব্রি ধান ২৮ বীজ", s1: "১ কেজি", p1: 70, s2: "৫ কেজি", p2: 330, s3: "১০ কেজি", p3: 650, bene: "শতভাগ অঙ্কুরোদগম নিশ্চিত উন্নত বীজ।" },
+                { name: "ব্রি ধান ২৯ বীজ", s1: "১ কেজি", p1: 75, s2: "৫ কেজি", p2: 350, s3: "", p3: 0, bene: "উচ্চ ফলনশীল ব্রি ধান বীজ।" }
+            ],
+            "agri_veg": [
+                { name: "হাইব্রিড করলা বীজ", s1: "১০ গ্রাম", p1: 120, s2: "৫০ গ্রাম", p2: 550, s3: "", p3: 0, bene: "অধিক ফলনশীল ও রোগ প্রতিরোধ ক্ষমতা সম্পন্ন।" }
+            ],
+            "agri_corn": [],
+            "agri_sar": [
+                { name: "ইউরিয়া সার", s1: "১ কেজি", p1: 40, s2: "৫ কেজি", p2: 190, s3: "১ বস্তা", p3: 1350, bene: "ফসলের দ্রুত বৃদ্ধির জন্য কার্যকরী।" }
+            ],
+            "agri_fert": [],
+            "agri_weed": [],
+            "agri_pest": [],
+            "agri_fungi": [],
+
+            // অন্যান্য প্রধান ক্যাটাগরি সমূহ
+            "bazar": [
+                { name: "দেশী পেঁয়াজ", s1: "১ কেজি", p1: 80, s2: "৫ কেজি", p2: 390, s3: "", p3: 0, bene: "সরাসরি মাঠ থেকে সংগৃহীত একদম ফ্রেশ পেঁয়াজ।" }
+            ],
+            "grocer": [
+                { name: "মিনিকেট চাল", s1: "৫ কেজি", p1: 340, s2: "২৫ কেজি", p2: 1650, s3: "", p3: 0, bene: "ঝরঝরে প্রিমিয়াম কোয়ালিটির চাল।" }
+            ],
+            "cake": [],
+            "rest": [],
+            "fruit": [],
+            "cosm": [],
+            "furni": [],
+            "ticket": [],
+            "doc": [],
+            "elec": [],
+            "hotel": []
+        };
+
         let user = {}, curCat = "", curItem = null, curPrice = 0, selectedPackNum = 1;
-
-        // ব্রাউজার মেমোরি ছাড়াও রিমোট ডাটা প্রতিবার লোড করার ফাংশন
-        function syncCloudData() {
-            localStorage.setItem('myshop_v12_db', JSON.stringify(db));
-            localStorage.setItem('myshop_v12_ord', JSON.stringify(orders));
-        }
-
-        // কিছু ডিফল্ট ডেমো ডাটা প্রথমবার ওয়েবসাইট ওপেন করার জন্য
-        if(Object.keys(db).length === 0) {
-            db = {
-                "agri_dhan": [{ name: "ব্রি ধান ২৮ বীজ", s1: "১ কেজি", p1: 70, s2: "৫ কেজি", p2: 330, s3: "", p3: 0, bene: "শতভাগ অঙ্কুরোদগম নিশ্চিত" }],
-                "bazar": [{ name: "দেশী পেঁয়াজ", s1: "১ কেজি", p1: 80, s2: "৫ কেজি", p2: 390, s3: "", p3: 0, bene: "ফ্রেশ মাঠের পণ্য" }]
-            };
-            syncCloudData();
-        }
 
         function doLogin() {
             let n = document.getElementById('u-name').value.trim(), p = document.getElementById('u-phone').value.trim();
@@ -234,73 +175,6 @@
                 document.getElementById('scr-cust').classList.remove('hidden');
                 document.getElementById('u-msg').innerText = "স্বাগতম, " + n + "!";
             } else alert("সঠিক নাম এবং ১১ সংখ্যার মোবাইল নম্বর দিন");
-        }
-
-        function toAdmin() { 
-            if(prompt("অ্যাডমিন পাসওয়ার্ড দিন:") === "1234") { 
-                document.getElementById('scr-login').classList.add('hidden'); 
-                document.getElementById('scr-admin').classList.remove('hidden'); 
-                refreshStats(); 
-            } 
-        }
-
-        function showA(id) { 
-            document.querySelectorAll('#scr-admin > div:not(.stat-grid)').forEach(d => d.classList.add('hidden')); 
-            document.getElementById(id).classList.remove('hidden'); 
-            if(id==='adm-list') loadOrders(); 
-        }
-
-        function checkAgSub() { 
-            document.getElementById('agri-sub-wrap').classList.toggle('hidden', document.getElementById('am-cat').value !== 'agri_main'); 
-        }
-
-        function saveToDB() {
-            let cat = document.getElementById('am-cat').value; 
-            if(cat === 'agri_main') cat = document.getElementById('as-cat').value;
-            
-            let p = { 
-                name: document.getElementById('pname').value.trim(), 
-                s1: document.getElementById('ps1').value.trim(), 
-                p1: parseInt(document.getElementById('pp1').value || 0), 
-                s2: document.getElementById('ps2').value.trim(), 
-                p2: parseInt(document.getElementById('pp2').value || 0), 
-                s3: document.getElementById('ps3').value.trim(), 
-                p3: parseInt(document.getElementById('pp3').value || 0), 
-                bene: document.getElementById('pbene').value.trim() 
-            };
-            
-            if(!p.name || !p.s1 || !p.p1) {
-                alert("পণ্য নাম এবং কমপক্ষে প্যাক ১ এর সাইজ ও দাম লিখুন!");
-                return;
-            }
-
-            if(!db[cat]) db[cat] = []; 
-            db[cat].push(p); 
-            syncCloudData();
-            alert("পণ্যটি সফলভাবে লাইভ সেভ হয়েছে!");
-            
-            // ইনপুট রিসেট
-            document.getElementById('pname').value = '';
-            document.getElementById('ps1').value = ''; document.getElementById('pp1').value = '';
-            document.getElementById('ps2').value = ''; document.getElementById('pp2').value = '';
-            document.getElementById('ps3').value = ''; document.getElementById('pp3').value = '';
-            document.getElementById('pbene').value = '';
-        }
-
-        function renderDel() {
-            let c = document.getElementById('del-sel-cat').value; 
-            let b = document.getElementById('del-list-box'); b.innerHTML = "";
-            if(db[c]) {
-                db[c].forEach((p, i) => b.innerHTML += `<div class="list-item"><span>${p.name}</span> <button class="btn-del" onclick="delP('${c}',${i})">ডিলিট</button></div>`);
-            }
-        }
-
-        function delP(c, i) { 
-            if(confirm("পণ্যটি স্থায়ীভাবে ডিলিট করবেন?")) { 
-                db[c].splice(i, 1); 
-                syncCloudData(); 
-                renderDel(); 
-            } 
         }
 
         function showCustAgri() { 
@@ -326,7 +200,7 @@
             if(db[c] && db[c].length > 0) {
                 db[c].forEach((p, i) => s.innerHTML += `<option value="${i}">${p.name}</option>`);
             } else {
-                s.innerHTML = '<option value="">কোনো পণ্য পাওয়া যায়নি</option>';
+                s.innerHTML = '<option value="">দুঃখিত, এই ক্যাটাগরিতে কোনো পণ্য এখনো যোগ করা হয়নি।</option>';
             }
             document.getElementById('detail-box').classList.add('hidden');
         }
@@ -341,7 +215,6 @@
             document.getElementById('detail-box').classList.remove('hidden');
             document.getElementById('p-bene').innerText = "ফিচার/উপকারিতা: " + (curItem.bene || "নাই");
             
-            // প্যাক বাটন হ্যান্ডেল করা
             handlePackButton('s1', curItem.s1);
             handlePackButton('s2', curItem.s2);
             handlePackButton('s3', curItem.s3);
@@ -388,25 +261,7 @@
             document.getElementById('submit-btn').innerText = "অর্ডার পাঠানো হচ্ছে...";
             document.getElementById('submit-btn').disabled = true;
 
-            let now = new Date();
-            let timeStr = now.toLocaleDateString() + " | " + now.toLocaleTimeString();
-            
-            // ডাটাবেজ অ্যারেতে পুশ করা
-            orders.push({ 
-                uName: user.name, 
-                uPhone: user.phone,
-                iName: `${curItem.name} (${packSize}) x ${qty}`, 
-                price: parseInt(totalPrice), 
-                addr: address,
-                pay: payment,
-                note: note || 'নাই', 
-                time: timeStr,
-                status: 'Pending' 
-            });
-            
-            syncCloudData();
-
-            // Formspree মেইলে ডাটা পাঠানোর ফরম প্রিপেয়ার করা
+            // Formspree মেইলে ডাটা সাবমিট করা
             document.getElementById('fps-name').value = user.name;
             document.getElementById('fps-phone').value = user.phone;
             document.getElementById('fps-prod').value = `${curItem.name} (${packSize}) x ${qty}`;
@@ -415,67 +270,16 @@
             document.getElementById('fps-pay').value = payment;
             document.getElementById('fps-note').value = note || 'নাই';
 
-            // মেইল ট্রিগার করা
+            // ফর্ম সাবমিট ট্রিগার
             document.getElementById('fps-form').submit();
 
-            alert("আপনার অর্ডারটি সফলভাবে ডাটাবেজে রেকর্ড করা হয়েছে এবং ইমেইলে পাঠানো হয়েছে!");
+            alert("আপনার অর্ডারটি সফলভাবে আমাদের ইমেইলে পাঠানো হয়েছে!");
             
-            // রি-সেট করা
             document.getElementById('submit-btn').innerText = "অর্ডার নিশ্চিত করুন";
             document.getElementById('submit-btn').disabled = false;
             document.getElementById('o-addr').value = "";
             document.getElementById('o-note').value = "";
             backToMain();
-        }
-
-        function loadOrders() {
-            let b = document.getElementById('order-list-box'); b.innerHTML = "";
-            if(orders.length === 0) {
-                b.innerHTML = "<p style='text-align:center; color:#999;'>কোনো অর্ডার পাওয়া যায়নি!</p>";
-                return;
-            }
-            orders.forEach((o, i) => {
-                let badgeClass = o.status === 'Pending' ? 'st-pending' : 'st-confirm';
-                let cardClass = o.status === 'OK' ? 'order-card done' : 'order-card';
-                
-                b.innerHTML += `
-                <div class="${cardClass}">
-                    <span class="status-badge ${badgeClass}">${o.status}</span>
-                    <div class="order-info">
-                        <b>কাস্টমার:</b> ${o.uName} (${o.uPhone})<br>
-                        <b>পণ্য:</b> ${o.iName} - ৳${o.price}<br>
-                        <b>ঠিকানা:</b> ${o.addr || 'দেওয়া হয়নি'}<br>
-                        <b>পেমেন্ট:</b> ${o.pay}<br>
-                        <b>মন্তব্য:</b> ${o.note || 'নাই'}<br>
-                        <b>সময়:</b> ${o.time}
-                    </div>
-                    <div style="margin-top:10px; display:flex;">
-                        ${o.status === 'Pending' ? `<button class="btn-ok" onclick="markOk(${i})">Confirm</button>` : ''}
-                        <button class="btn-del" onclick="deleteOrder(${i})">Delete</button>
-                    </div>
-                </div>`;
-            });
-        }
-
-        function markOk(i) { 
-            orders[i].status = 'OK'; 
-            syncCloudData(); 
-            refreshStats(); 
-            loadOrders(); 
-        }
-        
-        function deleteOrder(i) {
-            if(confirm("অর্ডারটি ডিলিট করতে চান?")) {
-                orders.splice(i, 1);
-                syncCloudData();
-                refreshStats();
-                loadOrders();
-            }
-        }
-
-        function refreshStats() {
-            document.getElementById('st-all').innerText = orders.reduce((s, o) => s + o.price, 0);
-            document.getElementById('st-ok').innerText = orders.filter(o => o.status === 'OK').reduce((s, o) => s + o.price, 0);
         }
     </script>
 </body>
